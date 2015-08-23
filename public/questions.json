@@ -1,0 +1,13 @@
+[{
+  "form": "3rd person, imperativo, presento",
+  "verb": "fazer",
+  "expected": "faz"
+}, {
+  "form": "1st person, imperativo, presento",
+  "verb": "ir",
+  "expected": "vou"
+}, {
+  "form": "1st person, imperativo, presento",
+  "verb": "ler",
+  "expected": "leio"
+}]

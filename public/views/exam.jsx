@@ -107,7 +107,7 @@ module.exports = React.createClass({
     },
 
     componentDidMount: function() {
-        $.get("/questions.json", function(result) {
+        $.get("/questions", function(result) {
             this.setState({
                 questions: result
             });

@@ -1,3 +1,7 @@
+//
+// Webpack configuration
+//
+
 var webpack = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var path = require('path');
@@ -28,17 +32,52 @@ var webpackCfg = {
 };
 var compiler = webpack(webpackCfg);
 
+//
+// Express application
+//
+
+var express = require('express');
+var app = express();
+
+app.use(express.static(__dirname + '/public'));
+
+app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackCfg.output.publicPath
+}));
+
+var questions = [{
+    "form": "3rd person, imperativo, presento",
+    "verb": "fazer",
+    "expected": "faz"
+}, {
+    "form": "1st person, imperativo, presento",
+    "verb": "ir",
+    "expected": "vou"
+}, {
+    "form": "1st person, imperativo, presento",
+    "verb": "ler",
+    "expected": "leio"
+}];
+
+app.get('/questions', function (req, resp) {
+    resp.json(questions);
+});
+
+var server = app.listen(3000, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+
+    console.log('App listening at http://%s:%s', host, port);
+});
+
+//
+//Config of browser-sync serving as a proxy for express app
+//
+
 var browserSync = require("browser-sync").create();
 
 browserSync.init({
-    server: {
-        baseDir: "public",
-        index: "index.html"
-    },
+    proxy: 'http://localhost:3000',
+    port: 4000,
     files: ["public/index.html", "public/**/*.js", "public/**/*.jsx", "public/**/*.css"],
-    middleware: [
-        webpackDevMiddleware(compiler, {
-            publicPath: webpackCfg.output.publicPath
-        })
-    ]
 });

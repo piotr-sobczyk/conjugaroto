@@ -39,25 +39,13 @@ var compiler = webpack(webpackCfg);
 var express = require('express');
 var app = express();
 
+var questions = require('./data/questions.json');
+
 app.use(express.static(__dirname + '/public'));
 
 app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackCfg.output.publicPath
 }));
-
-var questions = [{
-    "form": "3rd person, imperativo, presento",
-    "verb": "fazer",
-    "expected": "faz"
-}, {
-    "form": "1st person, imperativo, presento",
-    "verb": "ir",
-    "expected": "vou"
-}, {
-    "form": "1st person, imperativo, presento",
-    "verb": "ler",
-    "expected": "leio"
-}];
 
 app.get('/questions', function (req, resp) {
     resp.json(questions);

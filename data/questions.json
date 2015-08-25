@@ -1,0 +1,17 @@
+[{
+  "form": "3rd person, indicativo, presente",
+  "verb": "fazer",
+  "expected": "faz"
+}, {
+  "form": "1st person, indicativo, presente",
+  "verb": "ir",
+  "expected": "vou"
+}, {
+  "form": "1st person, indicativo, presente",
+  "verb": "ler",
+  "expected": "leio"
+}, {
+  "form": "2nd person, indicativo, presente",
+  "verb": "cozinhar",
+  "expected": "cozinhas"
+}]

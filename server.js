@@ -39,7 +39,8 @@ var compiler = webpack(webpackCfg);
 var express = require('express');
 var app = express();
 
-var questions = require('./data/questions.json');
+var _ = require('underscore');
+var database = require('./database/database');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -48,7 +49,10 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.get('/questions', function (req, resp) {
-    resp.json(questions);
+    database.loadQuestions(function (questions) {
+        var shuffledQuestions = _.shuffle(questions);
+        resp.json(shuffledQuestions);
+    });
 });
 
 var server = app.listen(3000, function () {

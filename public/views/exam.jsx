@@ -53,27 +53,36 @@ var QuestionPanel = React.createClass({
             answer: ""
         }
     },
-    componentWillReceiveProps: function(nextProps) {
+    componentWillReceiveProps: function (nextProps) {
         this.setState({
             answer: ""
         });
     },
     answerChanged: function (evt) {
         this.setState({
-           answer: evt.target.value
+            answer: evt.target.value
         });
     },
     submitClicked: function () {
+        this.submit();
+    },
+    keyPressed: function (evt) {
+        if (evt.key === "Enter") {
+            this.submit();
+        }
+    },
+    submit: function () {
         this.props.onSubmit(this.state.answer);
     },
-    render: function(){
+    render: function () {
         return (
             <Panel>
                 <div>{this.props.question.form}</div>
                 <strong>{this.props.question.verb}</strong>
 
                 <div>Your answer:</div>
-                <div><input type="text" value={this.state.answer} onChange={this.answerChanged}/></div>
+                <div><input type="text" value={this.state.answer} onChange={this.answerChanged}
+                            onKeyPress={this.keyPressed}/></div>
                 <button onClick={this.submitClicked}>Submit</button>
             </Panel>
         );
@@ -84,7 +93,7 @@ var QuestionNumber = React.createClass({
     guiQuestionNo: function () {
         return this.props.currQuestionNo + 1;
     },
-    render: function(){
+    render: function () {
         return (
             <div>
                 Question: {this.guiQuestionNo()} of {this.props.totalQuestions}
@@ -106,8 +115,8 @@ module.exports = React.createClass({
         }
     },
 
-    componentDidMount: function() {
-        $.get("/questions", function(result) {
+    componentDidMount: function () {
+        $.get("/questions", function (result) {
             this.setState({
                 questions: result
             });
@@ -135,7 +144,7 @@ module.exports = React.createClass({
     render: function () {
         var mainPanel = null;
 
-        if(this.state.currentQuestionNo >= this.state.questions.length){
+        if (this.state.currentQuestionNo >= this.state.questions.length) {
             mainPanel = (<Alert bsStyle="success">
                 <span>We are done for today!</span>
                 <Button bsStyle="link" href="#">Back to main page</Button>
@@ -144,7 +153,8 @@ module.exports = React.createClass({
             mainPanel = (
                 <div>
                     <QuestionPanel question={this.currentQuestion()} onSubmit={this.submitAnswer}/>
-                    <QuestionNumber currQuestionNo={this.state.currentQuestionNo} totalQuestions={this.state.questions.length}/>
+                    <QuestionNumber currQuestionNo={this.state.currentQuestionNo}
+                                    totalQuestions={this.state.questions.length}/>
                 </div>)
         }
 

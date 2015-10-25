@@ -4,6 +4,7 @@ var $ = require('jquery');
 var Alert = require('react-bootstrap').Alert;
 var Panel = require('react-bootstrap').Panel;
 var Button = require('react-bootstrap').Button;
+var ProgressBar = require('react-bootstrap').ProgressBar;
 
 var ResultDisplay = React.createClass({
     getDefaultProps: function () {
@@ -91,12 +92,20 @@ var QuestionPanel = React.createClass({
 
 var QuestionNumber = React.createClass({
     guiQuestionNo: function () {
+        //We add 1 to make it 1-based (human readable)
         return this.props.currQuestionNo + 1;
+    },
+    percentageProgress(){
+        var percentage = (this.props.currQuestionNo/this.props.totalQuestions) * 100;
+        return Math.round(percentage);
     },
     render: function () {
         return (
             <div>
-                Question: {this.guiQuestionNo()} of {this.props.totalQuestions}
+                <div>
+                    Question: {this.guiQuestionNo()} of {this.props.totalQuestions}
+                </div>
+                <ProgressBar now={this.percentageProgress()}/>
             </div>
         )
     }

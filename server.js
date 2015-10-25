@@ -40,7 +40,8 @@ var express = require('express');
 var app = express();
 
 var _ = require('underscore');
-var database = require('./database/database');
+
+var testGenerator = require('./lib/test_generator');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -49,27 +50,25 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.get('/questions', function (req, resp) {
-    database.loadQuestions(function (questions) {
-        var shuffledQuestions = _.shuffle(questions);
-        resp.json(shuffledQuestions);
+    testGenerator.generateTestQuestions().then(function (questions) {
+        console.log("questions = ", questions);
+        resp.json(questions);
     });
 });
 
 var server = app.listen(3000, function () {
-    var host = server.address().address;
     var port = server.address().port;
-
-    console.log('App listening at http://%s:%s', host, port);
+    console.log('App listening at %s', port);
 });
 
 //
 //Config of browser-sync serving as a proxy for express app
 //
 
-var browserSync = require("browser-sync").create();
+//var browserSync = require("browser-sync").create();
 
-browserSync.init({
-    proxy: 'http://localhost:3000',
-    port: 4000,
-    files: ["public/index.html", "public/**/*.js", "public/**/*.jsx", "public/**/*.css"],
-});
+//browserSync.init({
+//    proxy: 'http://localhost:3000',
+//    port: 4000,
+//    files: ["public/index.html", "public/**/*.js", "public/**/*.jsx", "public/**/*.css"],
+//});

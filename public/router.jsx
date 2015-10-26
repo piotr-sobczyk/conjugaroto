@@ -11,7 +11,7 @@ var Link = require('react-router').Link;
 
 //views imports
 var Home = require('./views/home.jsx');
-var Exam = require("./views/exam.jsx");
+var Exam = require("./views/exam/exam.jsx");
 var Settings = require("./views/settings.jsx");
 
 var App = React.createClass({
